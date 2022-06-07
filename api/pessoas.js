@@ -23,31 +23,30 @@ Router.get('/', (req, res) => {
     res.send(buscarPessoas());
 });
 
-function buscarIDPessoa(req){
-    const id = req.params.id;
-    pessoas.find( p => 
+function buscarIDPessoa(id){
+    const pessoa = pessoas.find( p => 
         p.id == id
     )
-    return id;
+    return pessoa;
 }
 
 Router.get('/:id', (req, res) => {
-    res.send(buscarIDPessoa(req))
+    res.send(buscarIDPessoa(req.params.id))
 });
 
-function criarPessoas(req, res){
-    const user = req.body
-    user.id = listaUsuarios.length + 1;
+function criarPessoas(pessoaInfo){
+    const pessoa = pessoaInfo
+    pessoa.id = pessoas.length + 1;
     if(pessoa.cpf > 0) {
-        listaUsuarios.push(user);
-        res.json(user);
+        pessoas.push(pessoa);
+        return pessoa
     } else {
         console.log("Sem cpf bobão!")
     }
 }
 
-Router.post('/:id', (req, res) =>{
-    res.json(criarPessoas(req.params.id));
+Router.post('/', (req, res) =>{
+    res.json(criarPessoas(req.body));
 });
 
 function editarPessoas(req, res){
