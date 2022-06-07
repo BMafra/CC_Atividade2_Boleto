@@ -38,14 +38,18 @@ Router.get('/:id', (req, res) => {
 function criarPessoas(req, res){
     const id = req.params.id;
     pessoa.id = pessoas.length + 1;
-    pessoas.push(pessoa);
+    if (pessoa.cpf > 0){
+        pessoas.push(pessoa);
+    } else {
+        console.log("Arruma o cpf ai po!")
+    }
 }
 
 Router.post('/:id', (req, res) =>{
     res.json(criarPessoas(req.params.id));
 });
 
-function editarPessoas(){
+function editarPessoas(req, res){
     const id = req.params.id;
     const pessoa = req.body;
     const index = pessoa.findIndex( pessoaLista => pessoaLista.id == id);
@@ -56,6 +60,17 @@ function editarPessoas(){
 
 Router.put('/:id', (req, res) => {
     res.json(editarPessoas(req.params.id, req.body))
+})
+
+function deletar(req, res){
+    const id = req.params.id;
+    const index = listaUsuarios.findIndex(pessoaLista => pessoaLista.id == id);
+    listaUsuarios.splice(index, 1);
+    res.json(listaUsuarios)
+}
+
+Router.delete('/:id', (req, res) => {
+    res.json(deletar(req.params.id));
 })
 
 module.express = {
