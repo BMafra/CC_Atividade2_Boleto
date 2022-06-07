@@ -62,7 +62,7 @@ Router.put('/:id', (req, res) => {
     res.json(editarPessoas(req.params.id, req.body))
 })
 
-function deletar(req, res){
+function deletarPessoas(req, res){
     const id = req.params.id;
     const index = listaUsuarios.findIndex(pessoaLista => pessoaLista.id == id);
     listaUsuarios.splice(index, 1);
@@ -70,7 +70,7 @@ function deletar(req, res){
 }
 
 Router.delete('/:id', (req, res) => {
-    res.json(deletar(req.params.id));
+    res.json(deletarPessoas(req.params.id));
 })
 
 module.express = {
@@ -78,5 +78,6 @@ module.express = {
     buscarPessoas,
     buscarIDPessoa,
     criarPessoas,
-    editarPessoas
+    editarPessoas,
+    deletarPessoas
 }
