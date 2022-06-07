@@ -32,16 +32,17 @@ function buscarIDPessoa(req){
 }
 
 Router.get('/:id', (req, res) => {
-    res.send(buscarIDPessoas())
+    res.send(buscarIDPessoa(req))
 });
 
 function criarPessoas(req, res){
-    const id = req.params.id;
-    pessoa.id = pessoas.length + 1;
-    if (pessoa.cpf > 0){
-        pessoas.push(pessoa);
+    const user = req.body
+    user.id = listaUsuarios.length + 1;
+    if(pessoa.cpf > 0) {
+        listaUsuarios.push(user);
+        res.json(user);
     } else {
-        console.log("Arruma o cpf ai po!")
+        console.log("Sem cpf bobão!")
     }
 }
 
