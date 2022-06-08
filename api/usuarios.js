@@ -5,78 +5,76 @@
 // delete
 // variaveis: id, nome e senha
 
-const { Router } = require("express");
 const express = require("express");
-const rout = express.Router();
+const router = express.Router();
 
-const pessoas = [
+const usuarios = [
     { id: 1, nome: "Bruna", senha: "bruna"},
     { id: 2, nome: "Camilly",senha: "camilly"}
 ];
 
-function buscarPessoas(){
-    return pessoas;
+function buscarUsuarios(){
+    return usuarios;
 }
 
-Router.get('/', (req, res) => {
-    res.send(buscarPessoas());
+router.get('/', (req, res) => {
+    res.send(buscarUsuarios());
 });
 
-function buscarIDUsuario(req){
-    const id = req.params.id;
-    pessoas.find( p => 
+function buscarIDUsuario(id){
+    const usuario = usuarios.find( p => 
         p.id == id
     )
-    return id;
+    return usuario;
 }
 
-Router.get('/:id', (req, res) => {
-    res.send(buscarIDUsuario(req))
+router.get('/:id', (req, res) => {
+    res.send(buscarIDUsuario(req.params.id))
 });
 
-function criarPessoa(req, res){
-    const id = req.params.id;
-    pessoa.id = pessoas.length + 1;
-    if (pessoa.cpf > 0){
-        pessoas.push(pessoa);
+function criarUsuario(info){
+    const usuario = info
+    usuario.id = usuarios.length + 1;
+    if (usuario.senha != null){
+        usuarios.push(usuario);
+        return usuario
     } else {
         console.log("Arruma o cpf ai po!")
     }
 }
 
-Router.post('/:id', (req, res) =>{
-    res.json(criarPessoa(req.params.id));
+router.post('/', (req, res) =>{
+    res.json(criarUsuario(req.body));
 });
 
-function editarPessoas(req, res){
-    const id = req.params.id;
-    const pessoa = req.body;
-    const index = pessoa.findIndex( pessoaLista => pessoaLista.id == id);
-    pessoa.id = id;
-    pessoa[index] = pessoa;
-    return pessoa;
+function editarUsuario(id, info){
+    const usuario = info;
+    const index = usuarios.findIndex( pessoaLista => pessoaLista.id == id);
+    usuario.id = id;
+    usuarios[index] = usuario;
+    return usuario;
 }
 
-Router.put('/:id', (req, res) => {
-    res.json(editarPessoas(req.params.id, req.body))
+router.put('/:id', (req, res) => {
+    res.json(editarUsuario(req.params.id, req.body))
 })
 
-function deletarPessoas(req, res){
-    const id = req.params.id;
-    const index = listaUsuarios.findIndex(pessoaLista => pessoaLista.id == id);
-    listaUsuarios.splice(index, 1);
-    res.json(listaUsuarios)
+function deletarUsuario(id){
+    const index = usuarios.findIndex(pessoaLista => pessoaLista.id == id);
+    usuarios.splice(index, 1);
+    res.json(usuarios)
 }
 
-Router.delete('/:id', (req, res) => {
-    res.json(deletarPessoas(req.params.id));
+router.delete('/:id', (req, res) => {
+    res.json(deletarUsuario(req.params.id));
+    //fazer verification
 })
 
-module.express = {
-    rout, 
-    buscarPessoas,
-    buscarIDPessoa,
-    criarPessoas,
-    editarPessoas,
-    deletarPessoas
+module.exports = {
+    router, 
+    buscarUsuarios,
+    buscarIDUsuario,
+    criarUsuario,
+    editarUsuario,
+    deletarUsuario
 }

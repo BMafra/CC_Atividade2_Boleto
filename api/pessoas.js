@@ -6,9 +6,8 @@
 // variaveis: nome, id e cpf
 // fazer delete, e testar todos
 
-const { Router } = require("express");
 const express = require("express");
-const rout = express.Router();
+const router = express.Router();
 
 const pessoas = [
     { id: 1, nome: "Bruna", cpf: "110.560.989-88"},
@@ -19,7 +18,7 @@ function buscarPessoas(){
     return pessoas;
 }
 
-Router.get('/', (req, res) => {
+router.get('/', (req, res) => {
     res.send(buscarPessoas());
 });
 
@@ -30,14 +29,14 @@ function buscarIDPessoa(id){
     return pessoa;
 }
 
-Router.get('/:id', (req, res) => {
+router.get('/:id', (req, res) => {
     res.send(buscarIDPessoa(req.params.id))
 });
 
 function criarPessoas(pessoaInfo){
     const pessoa = pessoaInfo
     pessoa.id = pessoas.length + 1;
-    if(pessoa.cpf > 0) {
+    if(pessoa.cpf != null) {
         pessoas.push(pessoa);
         return pessoa
     } else {
@@ -45,36 +44,35 @@ function criarPessoas(pessoaInfo){
     }
 }
 
-Router.post('/', (req, res) =>{
+router.post('/', (req, res) =>{
     res.json(criarPessoas(req.body));
 });
 
-function editarPessoas(req, res){
-    const id = req.params.id;
-    const pessoa = req.body;
-    const index = pessoa.findIndex( pessoaLista => pessoaLista.id == id);
+function editarPessoas(id, info){
+    const pessoa = info;
     pessoa.id = id;
-    pessoa[index] = pessoa;
+    const index = pessoas.findIndex( pessoaLista => pessoaLista.id == id);
+    pessoas[index] = pessoa;
     return pessoa;
 }
 
-Router.put('/:id', (req, res) => {
+router.put('/:id', (req, res) => {
     res.json(editarPessoas(req.params.id, req.body))
 })
 
-function deletarPessoas(req, res){
-    const id = req.params.id;
-    const index = listaUsuarios.findIndex(pessoaLista => pessoaLista.id == id);
-    listaUsuarios.splice(index, 1);
-    res.json(listaUsuarios)
+function deletarPessoas(id){
+    const index = pessoas.findIndex(pessoaLista => pessoaLista.id == id);
+    pessoas.splice(index, 1);
+    res.json(pessoas)
 }
 
-Router.delete('/:id', (req, res) => {
+router.delete('/:id', (req, res) => {
     res.json(deletarPessoas(req.params.id));
+    //fazer verification
 })
 
-module.express = {
-    rout, 
+module.exports = {
+    router,
     buscarPessoas,
     buscarIDPessoa,
     criarPessoas,
