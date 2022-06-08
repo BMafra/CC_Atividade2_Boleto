@@ -7,7 +7,7 @@
 // fazer delete, e testar todos
 
 const express = require("express");
-const { mostrarBoleto } = require("./boletos");
+const { mostrarBoletos } = require("./boletos");
 const router = express.Router();
 
 const pessoas = [
@@ -69,13 +69,11 @@ function deletarPessoas(id){
     if(boleto == null){
         pessoas.splice(index, 1);
     }
-    
-    res.json(pessoas)
+   return pessoas;
 }
 
 router.delete('/:id', (req, res) => {
     res.json(deletarPessoas(req.params.id));
-    //fazer verification
 })
 
 module.exports = {

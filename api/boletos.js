@@ -13,12 +13,12 @@ const boletos = [
     {id: 3, id_pessoa: 2, id_usuario: 2, nome_pessoa: "Camilly", status: "Pago", valor: 1200},
 ]
 
-function mostarBoletos(){
+function mostrarBoletos(){
     return boletos;
 }
 
 router.get('/', (req, res) => {
-    res.json(mostarBoletos())
+    res.json(mostrarBoletos())
 });
 
 function mostrarBoleto(idBoleto){
@@ -30,13 +30,13 @@ router.get('/:id', (req, res) => {
     res.json(mostrarBoleto(req.params.id))
 });
 
-function mostarBoletoPessoa(idPessoa){
+function mostrarBoletoPessoa(idPessoa){
     const boletosPessoa = boletos.find(objetoLista => objetoLista.id_pessoa == idPessoa)
     return boletosPessoa;
 }
 
 router.get('/pessoa/:id', (req, res) => {
-    res.json(mostarBoletoPessoa(req.params.id));
+    res.json(mostrarBoletoPessoa(req.params.id));
 });
 
 function criarBoleto(info){
@@ -68,5 +68,10 @@ router.put('/:id', (req, res) => {
 });
 
 module.exports = {
-    router
+    router,
+    mostrarBoleto,
+    mostrarBoletos, 
+    mostrarBoletoPessoa, 
+    criarBoleto,
+    editarBoleto
 }
