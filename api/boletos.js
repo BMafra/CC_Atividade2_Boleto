@@ -55,6 +55,14 @@ router.post('/', (req, res) => {
     res.json(criarBoleto(req.body));
 })
 
+function editarBoleto(id){
+    const boleto = boletos.find( )
+}
+
+router.put('/:id', (req, res) => {
+    res.json(editarBoleto(req.params.id, req.body))
+});
+
 module.exports = {
     router
 }
