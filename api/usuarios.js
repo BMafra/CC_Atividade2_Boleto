@@ -74,7 +74,6 @@ function deletarUsuario(id){
 
 router.delete('/:id', (req, res) => {
     res.json(deletarUsuario(req.params.id));
-    //fazer verification
 })
 
 module.exports = {
