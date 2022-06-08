@@ -13,6 +13,8 @@ const boletos = [
     {id: 3, id_pessoa: 2, id_usuario: 2, nome_pessoa: "Camilly", status: "Pago", valor: 1200},
 ]
 
+const newList = [];
+
 function mostrarBoletos(){
     return boletos;
 }
@@ -31,12 +33,17 @@ router.get('/:id', (req, res) => {
 });
 
 function mostrarBoletoPessoa(idPessoa){
-    const boletosPessoa = boletos.find(objetoLista => objetoLista.id_pessoa == idPessoa)
-    return boletosPessoa;
+     boletos.forEach(e =>{
+        if(e.id_pessoa == idPessoa){
+            newList.push(e)
+        }
+    });
+    return newList;
 }
 
 router.get('/pessoa/:id', (req, res) => {
     res.json(mostrarBoletoPessoa(req.params.id));
+    newList.splice(0, newList.length);
 });
 
 function criarBoleto(info){
