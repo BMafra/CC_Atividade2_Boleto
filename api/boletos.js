@@ -55,8 +55,12 @@ router.post('/', (req, res) => {
     res.json(criarBoleto(req.body));
 })
 
-function editarBoleto(id){
-    const boleto = boletos.find( )
+function editarBoleto(id, info){
+    const boleto = info;
+    boleto.id = id;
+    const index = boletos.findIndex(objetoLista => objetoLista.id == id);
+    boletos[index] = boleto;
+    return boleto;
 }
 
 router.put('/:id', (req, res) => {
