@@ -7,6 +7,7 @@
 // fazer delete, e testar todos
 
 const express = require("express");
+const { mostrarBoleto } = require("./boletos");
 const router = express.Router();
 
 const pessoas = [
@@ -36,7 +37,7 @@ router.get('/:id', (req, res) => {
 function criarPessoas(pessoaInfo){
     const pessoa = pessoaInfo
     pessoa.id = pessoas.length + 1;
-    if(pessoa.cpf != null) {
+    if(pessoa.cpf != null || pessoa.cpf == "") {
         pessoas.push(pessoa);
         return pessoa
     } else {
@@ -62,7 +63,13 @@ router.put('/:id', (req, res) => {
 
 function deletarPessoas(id){
     const index = pessoas.findIndex(pessoaLista => pessoaLista.id == id);
-    pessoas.splice(index, 1);
+    const pessoa = pessoas.find(objetoLista => objetoLista.id == id)
+    const boletos = mostrarBoletos();
+    const boleto = boletos.find(b => b.id_pessoa == pessoa.id);
+    if(boleto == null){
+        pessoas.splice(index, 1);
+    }
+    
     res.json(pessoas)
 }
 

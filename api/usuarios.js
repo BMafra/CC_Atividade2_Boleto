@@ -6,6 +6,7 @@
 // variaveis: id, nome e senha
 
 const express = require("express");
+const { mostrarBoletos} = require("./boletos");
 const router = express.Router();
 
 const usuarios = [
@@ -61,7 +62,13 @@ router.put('/:id', (req, res) => {
 
 function deletarUsuario(id){
     const index = usuarios.findIndex(pessoaLista => pessoaLista.id == id);
-    usuarios.splice(index, 1);
+    const usuario = usuarios.find(objetoLista => objetoLista.id == id);
+    const boletos = mostrarBoletos();
+    const boleto = boletos.find(objetoLista => objetoLista.id_usuario == usuario.id);
+    if(boleto == null){
+        usuarios.splice(index, 1);
+    }
+    
     res.json(usuarios)
 }
 

@@ -21,13 +21,13 @@ router.get('/', (req, res) => {
     res.json(mostarBoletos())
 });
 
-function mostarBoleto(idBoleto){
+function mostrarBoleto(idBoleto){
     const boleto = boletos.find(objetoLista => objetoLista.id == idBoleto)
     return boleto;
 }
 
 router.get('/:id', (req, res) => {
-    res.json(mostarBoleto(req.params.id))
+    res.json(mostrarBoleto(req.params.id))
 });
 
 function mostarBoletoPessoa(idPessoa){
