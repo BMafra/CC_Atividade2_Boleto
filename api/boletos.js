@@ -5,6 +5,8 @@
 // put
 // variaveis: id, id_pessoa, id_usuario, nome_pessoa, status e valor
 const express = require("express");
+const { buscarIDPessoa } = require("./pessoas");
+const { buscarIDUsuario } = require("./usuarios");
 const router = express.Router();
 
 const boletos = [
@@ -33,7 +35,7 @@ router.get('/:id', (req, res) => {
 });
 
 function mostrarBoletoPessoa(idPessoa){
-     boletos.forEach(e =>{
+    boletos.forEach(e =>{
         if(e.id_pessoa == idPessoa){
             newList.push(e)
         }
@@ -47,15 +49,19 @@ router.get('/pessoa/:id', (req, res) => {
 });
 
 function criarBoleto(info){
+    const id_boleto_pessoa = info.id_Pessoa;
+    const id_boleto_usuario = info.id_usuario;
     const boleto = info;
-    const boletoPessoa = boletos.find(objetoLista => objetoLista.id_pessoa == boleto.id_pessoa)
-    const boletoUsuario = boletos.find(objetoLista => objetoLista.id_usuario == boleto.id_usuario)
-    if(boletoPessoa != null && boletoUsuario != null && boleto.valor > 0){
-        boleto.id = boletos.length + 1;
-        boletos.push(boleto);
-    } else {
-        console.log("Tem algo errado ai amigão!!")
+    const id_pessoa = buscarIDPessoa();
+    const id_usuario = buscarIDUsuario();
+    console.log(id_pessoa);
+    console.log(id_usuario);
+    for(let i = 0; i < boletos.length; i++){
+        if(id_boleto_pessoa == id_pessoa && id_boleto_usuario == id_usuario && info.valor > 0 ){
+            boletos.push(boleto);
+        }
     }
+    return boleto;
 }
 
 router.post('/', (req, res) => {
