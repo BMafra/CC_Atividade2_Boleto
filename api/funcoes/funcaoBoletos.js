@@ -21,19 +21,8 @@ function mostrarBoletoPessoa(idPessoa){
 }
 
 function criarBoleto(info){
-    const id_boleto_pessoa = info.id_Pessoa;
-    const id_boleto_usuario = info.id_usuario;
-    const boleto = info;
-    const id_pessoa = buscarIDPessoa();
-    const id_usuario = buscarIDUsuario();
-    console.log(id_pessoa);
-    console.log(id_usuario);
-    for(let i = 0; i < boletos.length; i++){
-        if(id_boleto_pessoa == id_pessoa && id_boleto_usuario == id_usuario && info.valor > 0 ){
-            boletos.push(boleto);
-        }
-    }
-    return boleto;
+    info.id = boletos.length + 1;
+    boletos.push(info);
 }
 
 function editarBoleto(id, info){

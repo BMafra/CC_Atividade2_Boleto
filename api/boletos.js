@@ -24,7 +24,18 @@ router.get('/pessoa/:id', (req, res) => {
 });
 
 router.post('/', (req, res) => {
-    res.json(funcaoBoletos.criarBoleto(req.body));
+    const info = req.body;
+    const pessoa = funcaoPessoas.buscarPessoas(info.id_Pessoa)
+    const usuario = funcaoUsuarios.buscarUsuarios(info.id_usuario);
+    if(pessoa != null && usuario != null){
+        if (info.valor > 0){
+            res.json(funcaoBoletos.criarBoleto(info));
+        } else {
+            res.json(400).send("Valor deve ser maior que 0 (zero)!");
+        }
+    } else {
+        res.json(400).send("Pessoa ou usuário inexistente!")
+    }
 })
 
 router.put('/:id', (req, res) => {
