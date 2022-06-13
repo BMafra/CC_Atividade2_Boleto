@@ -17,7 +17,7 @@ router.get('/:id', (req, res) => {
     res.send(funcaoUsuarios.buscarIDUsuario(req.params.id))
 });
 
-router.post('/', (req, res) =>{
+router.post('/', (req, res) => {
     res.json(funcaoUsuarios.criarUsuario(req.body));
 });
 

@@ -25,8 +25,8 @@ router.get('/pessoa/:id', (req, res) => {
 
 router.post('/', (req, res) => {
     const info = req.body;
-    const pessoa = funcaoPessoas.buscarPessoas(info.id_Pessoa)
-    const usuario = funcaoUsuarios.buscarUsuarios(info.id_usuario);
+    const pessoa = funcaoPessoas.buscarIDPessoa(info.id_pessoa)
+    const usuario = funcaoUsuarios.buscarIDUsuario(info.id_usuario);
     if(pessoa != null && usuario != null){
         if (info.valor > 0){
             res.json(funcaoBoletos.criarBoleto(info));

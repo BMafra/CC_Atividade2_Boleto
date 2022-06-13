@@ -23,6 +23,7 @@ function mostrarBoletoPessoa(idPessoa){
 function criarBoleto(info){
     info.id = boletos.length + 1;
     boletos.push(info);
+    return info;
 }
 
 function editarBoleto(id, info){

@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const { pessoas } = require("../listas");
+const funcoesBoleto = require("./funcaoBoletos")
 
 function buscarPessoas(){
     return pessoas;
@@ -19,8 +20,6 @@ function criarPessoas(pessoaInfo){
     if(pessoa.cpf != null || pessoa.cpf != "" || pessoa.nome != null || pessoa.nome != "") {
         pessoas.push(pessoa);
         return pessoa
-    } else {
-        res.status(400).send("Dados incompletos!")
     }
 }
 
@@ -33,14 +32,13 @@ function editarPessoas(id, info){
 }
 
 function deletarPessoas(id){
-   const boletos = buscarBoletosPessoa(id);
-   const index = pessoas.findIndex( p => p.id == id);
+   const boletos = funcoesBoleto.buscarBoletosPessoa(id);
+   console.log(boletos);
+   const index = pessoas.findIndex(p => p.id == id);
    if (boletos == "" || boletos == null){
-       boletos.splice(index, 1);
-       res.json(buscarPessoas());
-   } else {
-       res.status(400).send("A pessoa possui boletos pendentes!");
-   }
+       pessoas.splice(index, 1);
+       return pessoas;
+   } 
 } 
 
 module.exports = {
