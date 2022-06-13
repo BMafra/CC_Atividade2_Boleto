@@ -8,6 +8,7 @@
 const express = require("express");
 const funcaoUsuarios = require("./funcoes/funcaoUsuarios");
 const router = express.Router();
+const { buscarBoletosUsuario } = require("./funcoes/funcaoBoletos")
 
 router.get('/', (req, res) => {
     res.send(funcaoUsuarios.buscarUsuarios());
@@ -18,7 +19,12 @@ router.get('/:id', (req, res) => {
 });
 
 router.post('/', (req, res) => {
-    res.json(funcaoUsuarios.criarUsuario(req.body));
+    const usuario = req.body;
+    if (usuario.senha == null) {
+        res.status(400).send("Dados incompletos!");
+    } else {
+        res.json(funcaoUsuarios.criarUsuario(usuario));
+    }
 });
 
 router.put('/:id', (req, res) => {
@@ -26,7 +32,13 @@ router.put('/:id', (req, res) => {
 })
 
 router.delete('/:id', (req, res) => {
-    res.json(funcaoUsuarios.deletarUsuario(req.params.id));
+    const id = req.params.id;
+    const boletos = buscarBoletosUsuario(id);
+    if (boletos == null || boletos == "") {
+        res.json(funcaoUsuarios.deletarUsuario(id));
+    } else {
+        res.status(400).send("Boletos pendentes!");
+    }
 })
 
 module.exports = {

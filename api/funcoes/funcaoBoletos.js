@@ -41,7 +41,6 @@ function buscarBoletosPessoa(id) {
             lista.push(e);
         }
     })
-
     return lista;
 }
 

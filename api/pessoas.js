@@ -9,6 +9,7 @@
 const express = require("express");
 const funcaoPessoas = require("./funcoes/funcaoPessoas");
 const router = express.Router();
+const { buscarBoletosPessoa } = require("./funcoes/funcaoBoletos")
 
 router.get('/', (req, res) => {
     res.send(funcaoPessoas.buscarPessoas());
@@ -19,7 +20,13 @@ router.get('/:id', (req, res) => {
 });
 
 router.post('/', (req, res) =>{
-    res.json(funcaoPessoas.criarPessoas(req.body));
+    const pessoa = req.body;
+    console.log(pessoa)
+    if(pessoa.cpf == null || pessoa.cpf == "" || pessoa.nome == null || pessoa.nome == "") {
+        res.status(400).send("Dados incompletos!");
+    } else {
+        res.json(funcaoPessoas.criarPessoas(pessoa));
+    }
 });
 
 router.put('/:id', (req, res) => {
@@ -27,7 +34,13 @@ router.put('/:id', (req, res) => {
 })
 
 router.delete('/:id', (req, res) => {
-    res.json(funcaoPessoas.deletarPessoas(req.params.id));
+    const id = req.params.id
+    const boletos = buscarBoletosPessoa(id);
+    if (boletos == "" || boletos == null){
+        res.json(funcaoPessoas.deletarPessoas(id));
+    } else {
+        res.status(400).send("Boletos pendentes!");
+    }
 })
 
 module.exports = {

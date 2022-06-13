@@ -19,7 +19,7 @@ router.get('/:id', (req, res) => {
     res.json(funcaoBoletos.mostrarBoleto(req.params.id))
 });
 
-router.get('/pessoa/:id', (req, res) => {
+router.get('/pessoas/:id', (req, res) => {
     res.json(funcaoBoletos.buscarBoletosPessoa(req.params.id));
 });
 

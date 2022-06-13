@@ -1,7 +1,6 @@
 const express = require("express");
 const { usuarios } = require("../listas");
 const router = express.Router();
-const funcoesBoleto = require("./funcaoBoletos")
 
 function buscarUsuarios() {
     return usuarios;
@@ -14,13 +13,10 @@ function buscarIDUsuario(id) {
     return usuario;
 }
 
-function criarUsuario(info) {
-    const usuario = info
+function criarUsuario(usuario) {
     usuario.id = usuarios.length + 1;
-    if (usuario.senha != null) {
-        usuarios.push(usuario);
-        return usuario
-    }
+    usuarios.push(usuario);
+    return usuario
 }
 
 function editarUsuario(id, info) {
@@ -32,12 +28,9 @@ function editarUsuario(id, info) {
 }
 
 function deletarUsuario(id) {
-    const boletos = funcoesBoleto.buscarBoletosUsuario(id);
     const index = usuarios.findIndex(pessoaLista => pessoaLista.id == id);
-    if (boletos == null || boletos == "") {
-        usuarios.splice(index, 1);
-        return usuarios;
-    }
+    usuarios.splice(index, 1);
+    return usuarios;
 }
 
 module.exports = {
