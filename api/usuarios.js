@@ -6,81 +6,29 @@
 // variaveis: id, nome e senha
 
 const express = require("express");
-const { mostrarBoletos} = require("./boletos");
+const funcaoUsuarios = require("./funcoes/funcaoUsuarios");
 const router = express.Router();
 
-const usuarios = [
-    { id: 1, nome: "Bruna", senha: "bruna"},
-    { id: 2, nome: "Camilly",senha: "camilly"}
-];
-
-function buscarUsuarios(){
-    return usuarios;
-}
-
 router.get('/', (req, res) => {
-    res.send(buscarUsuarios());
+    res.send(funcaoUsuarios.buscarUsuarios());
 });
-
-function buscarIDUsuario(id){
-    const usuario = usuarios.find( p => 
-        p.id == id
-    )
-    return usuario;
-}
 
 router.get('/:id', (req, res) => {
-    res.send(buscarIDUsuario(req.params.id))
+    res.send(funcaoUsuarios.buscarIDUsuario(req.params.id))
 });
-
-function criarUsuario(info){
-    const usuario = info
-    usuario.id = usuarios.length + 1;
-    if (usuario.senha != null){
-        usuarios.push(usuario);
-        return usuario
-    } else {
-        console.log("Arruma o cpf ai po!")
-    }
-}
 
 router.post('/', (req, res) =>{
-    res.json(criarUsuario(req.body));
+    res.json(funcaoUsuarios.criarUsuario(req.body));
 });
 
-function editarUsuario(id, info){
-    const usuario = info;
-    const index = usuarios.findIndex( pessoaLista => pessoaLista.id == id);
-    usuario.id = id;
-    usuarios[index] = usuario;
-    return usuario;
-}
-
 router.put('/:id', (req, res) => {
-    res.json(editarUsuario(req.params.id, req.body))
+    res.json(funcaoUsuarios.editarUsuario(req.params.id, req.body))
 })
 
-function deletarUsuario(id){
-    const index = usuarios.findIndex(pessoaLista => pessoaLista.id == id);
-    const usuario = usuarios.find(objetoLista => objetoLista.id == id);
-    const boletos = mostrarBoletos();
-    const boleto = boletos.find(objetoLista => objetoLista.id_usuario == usuario.id);
-    if(boleto == null){
-        usuarios.splice(index, 1);
-    }
-    
-    res.json(usuarios)
-}
-
 router.delete('/:id', (req, res) => {
-    res.json(deletarUsuario(req.params.id));
+    res.json(funcaoUsuarios.deletarUsuario(req.params.id));
 })
 
 module.exports = {
-    router, 
-    buscarUsuarios,
-    buscarIDUsuario,
-    criarUsuario,
-    editarUsuario,
-    deletarUsuario
+    router
 }
