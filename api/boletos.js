@@ -21,6 +21,7 @@ router.get('/:id', (req, res) => {
 
 router.get('/pessoas/:id', (req, res) => {
     res.json(funcaoBoletos.buscarBoletosPessoa(req.params.id));
+    
 });
 
 router.post('/', (req, res) => {
